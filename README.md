@@ -1,0 +1,2 @@
+# crosstalk
+Currently only korean
