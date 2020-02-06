@@ -21,6 +21,9 @@ images
 
 The note_ids are only of important when processing the final results. But are for now it doesn't matter if the get messed up or missing.
 
+## ToDo list
+play with [Leitner learning method](https://github.com/certificationy/flashcards) to see if its usefull enough to incorparate.
+
 
 ## github
 
