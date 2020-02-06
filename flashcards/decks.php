@@ -1,8 +1,21 @@
 welcome, 
 
-currently there is only one deck avalible. And only works with korean and dutch.
+currently there is only one deck available. And only one level.
+
+
+
+
 
 <form action="question.php" method="get">
+    level
+    <select name="level" id="level2" >
+         <option value="preview">quick preview</option>
+        <option value="listening">listening</option>
+        <option value="speaking">speaking</option>
+        <option value="reading">reading</option>
+        <option value="writing">writing</option>
+    </select>
+    
     from
     <select name="from" id="from2" >
          <option value="dutch">Dutch</option>

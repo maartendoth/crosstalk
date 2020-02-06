@@ -8,10 +8,10 @@ if ($_GET[nid]) {
     $nid = $_GET[nid] + 1;
     echo "<p>new nid=$nid</p>";
 } else {
-    echo "Error"; exit;
+    $nid = 1;
 }
 
-$handle = fopen("../korean/crosstalk.csv", "r");
+$handle = fopen("../decks/crosstalk.csv", "r");
 
 if ($handle) {
     //    echo "<p>file found</p>";
@@ -39,7 +39,7 @@ if ($handle) {
         fclose($handle);
     } else {
         // error opening the file.
-        echo "error"; exit;
+        echo "error: cannot open selected card deck."; exit;
 } 
 
 echo "will auto redirect to: $url";
