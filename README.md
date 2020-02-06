@@ -21,8 +21,12 @@ images
 
 The note_ids are only of important when processing the final results. But are for now it doesn't matter if the get messed up or missing.
 
+## website
+each *.csv will be listed as an separate flashcard deck at https://omniglot.nl/flashcards
+
 ## ToDo list
-play with [Leitner learning method](https://github.com/certificationy/flashcards) to see if its usefull enough to incorparate.
+- create a program to split the TTS audio file per phrase.
+- play with [Leitner learning method](https://github.com/certificationy/flashcards) to see if its usefull enough to incorparate.
 
 
 ## github
