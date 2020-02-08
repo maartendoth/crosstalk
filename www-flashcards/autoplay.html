@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script type="text/javascript">
+function playAudio() { 
+    var myAudio = document.getElementById("autoloadAudio");
+	myAudio.play();
+} 
+function playObject() { 
+    var myObject = document.getElementById("autoloadObject");
+	myObject.play();
+} 
+function playEmbed() { 
+    var myEmbed = document.getElementById("autoloadEmbed");
+	myEmbed.play();
+} 
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+$( document ).ready(function() {
+    
+	playAudio();
+});
+</script>
+
+<script>
+$( window ).load(function() {
+    alert( "window loaded" );
+	playAudio();
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'flashcards/decks/media/nederlands/familie.wav');
+    
+    audioElement.addEventListener('ended', function() {
+        this.play();
+    }, false);
+    
+    audioElement.addEventListener("canplay",function(){
+        $("#length").text("Duration:" + audioElement.duration + " seconds");
+        $("#source").text("Source:" + audioElement.src);
+        $("#status").text("Status: Ready to play").css("color","green");
+    });
+    
+    audioElement.addEventListener("timeupdate",function(){
+        $("#currentTime").text("Current second:" + audioElement.currentTime);
+    });
+    
+    $('#play').click(function() {
+        audioElement.play();
+        $("#status").text("Status: Playing");
+    });
+    
+    $('#pause').click(function() {
+        audioElement.pause();
+        $("#status").text("Status: Paused");
+    });
+    
+    $('#restart').click(function() {
+        audioElement.currentTime = 0;
+    });
+});
+</script>
+
+</head>
+<body onLoad="playAudio();">
+
+<audio id="autoloadAudio">
+	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	Your browser does not support the audio element.
+</audio>
+
+<object id="autoloadObject">
+	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	Your browser does not support the audio element.
+</object>
+
+<embed id="autoloadEmbed">
+	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	Your browser does not support the audio element.
+</embed>
+
+<p>I am trying to auto play <a onclick="playAudio()" href="javascript:void(0);">this audio clip</a></p>
+<p>I am trying to auto play <a onclick="playObject()" href="javascript:void(0);">this Object</a></p>
+<p>I am trying to auto play <a onclick="playEmbed()" href="javascript:void(0);">this Embed clip</a></p>
+
+using css also doesnot work. https://css-tricks.com/play-sound-on-hover/
+
+    <h2>Sound Information</h2>
+    <div id="length">Duration:</div>
+    <div id="source">Source:</div>
+    <div id="status" style="color:red;">Status: Loading</div>
+    <hr>
+    <h2>Control Buttons</h2>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="restart">Restart</button>
+    <hr>
+    <h2>Playing Information</h2>
+    <div id="currentTime">0</div>
+
+
+ <script>
+   playAudio();
+  </script>
+<script>
+window.onload = function(){
+  playAudio();
+};
+</script>
+</body>
+</html>
+

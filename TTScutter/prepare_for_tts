@@ -1,0 +1,23 @@
+#!/bin/bash
+
+input_file="$1"
+input_file="nederlands.txt"
+sed '/^[[:space:]]*$/d' "$input_file" > /tmp/"$input_file"
+
+i=`wc -l < /tmp/"$input_file"`
+
+rm -f "$input_file"@ttsmp3.com
+
+while read -r line; do
+
+    if ! [ -z "$line" ]; then
+        if ! [ $i -eq 1 ]; then
+            echo "$line <break time=\"2s\"/>" >> "$input_file"@ttsmp3.com
+        else
+            echo "$line" >> "$input_file"@ttsmp3.com
+        fi
+    fi
+
+    let i--
+    
+done < /tmp/"$input_file"

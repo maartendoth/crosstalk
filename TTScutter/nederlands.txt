@@ -1,0 +1,64 @@
+familie
+ik
+oma
+opa
+mama
+papa
+zus
+zus
+broer
+broer
+zusje
+broertje
+man
+vrouw
+landen
+landen
+Korea
+Spanje
+canada
+Italië
+Suriname
+Nederland
+China
+Australië
+Mexico
+6 jaar
+3 jaar
+4 jaar
+kleur
+De sinaasappel is oranje.
+De aardbei is rood.
+De citroen is geel.
+De tomaat is rood.
+De Komkommer is groen.
+De druiven zijn paars.
+De Bosbessen zijn blauw.
+De bloem is wit.
+De peper is zwart.
+De Chocolade is bruin.
+nummer
+tijd
+16:07 uur
+zeven over vier
+nul
+één
+twee
+drie
+vier
+vijf
+zes
+zeven
+acht
+negen
+nul
+één
+twee
+drie
+vier
+vijf
+zes
+zeven
+acht
+negen
+
