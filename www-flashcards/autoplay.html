@@ -36,7 +36,7 @@ $( window ).load(function() {
 <script>
 $(document).ready(function() {
     var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'flashcards/decks/media/nederlands/familie.wav');
+    audioElement.setAttribute('src', 'decks/media/nederlands/familie.wav');
     
     audioElement.addEventListener('ended', function() {
         this.play();
@@ -72,17 +72,17 @@ $(document).ready(function() {
 <body onLoad="playAudio();">
 
 <audio id="autoloadAudio">
-	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	<source src="decks/media/nederlands/familie.wav" type="audio/x-wav">
 	Your browser does not support the audio element.
 </audio>
 
 <object id="autoloadObject">
-	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	<source src="decks/media/nederlands/familie.wav" type="audio/x-wav">
 	Your browser does not support the audio element.
 </object>
 
 <embed id="autoloadEmbed">
-	<source src="flashcards/decks/media/nederlands/familie.wav" type="audio/x-wav">
+	<source src="decks/media/nederlands/familie.wav" type="audio/x-wav">
 	Your browser does not support the audio element.
 </embed>
 

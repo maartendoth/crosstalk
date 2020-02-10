@@ -1,0 +1,165 @@
+#!/bin/bash
+ 
+from=korean
+to=dutch
+
+# ------------------------------------------------
+tmpdir=/tmp/ttsmerge
+rm -fr $tmpdir
+mkdir -p $tmpdir
+
+media_dir="../www-flashcards/decks/media"
+file="../www-flashcards/decks/crosstalk.csv"
+
+duration1=0.5
+duration2=1.5
+duration3=3.0
+duration4=2.0
+
+silence1="$tmpdir/silence1.wav"
+silence2="$tmpdir/silence2.wav"
+silence3="$tmpdir/silence3.wav"
+silence4="$tmpdir/silence4.wav"
+
+sox -n -r 44100 -c 2 $silence1 trim 0.0 $duration1
+sox -n -r 44100 -c 2 $silence2 trim 0.0 $duration2
+sox -n -r 44100 -c 2 $silence3 trim 0.0 $duration3
+sox -n -r 44100 -c 2 $silence4 trim 0.0 $duration4
+
+# ------------------------------------------------
+make_tapes() { 
+:
+}
+
+get_audio() { 
+    local from=$1
+    local to=$2
+     if [ -z "$from" ] && [ -z "$to" ]; then echo "Fatal error: languages not seleted. please enter 'from' and 'to'"; exit; fi
+
+    local from_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$from'$/ { print NR - 1}'` +1))
+    local to_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$to'$/ { print NR - 1}'` +1))
+
+    local i=0
+    while read -r line; do
+        if [ $i -eq 0 ]; then let i++; continue; fi
+        local from_field=`echo $line | awk -F"|" '{ print $'$from_column' }'`
+        local to_field=`echo $line | awk -F"|" '{ print $'$to_column' }'`
+        local nr_field=`echo $line | awk -F"|" '{ print $1 }'`
+
+        if ! [ -z "$from_field" ] && ! [ -z "$to_field" ]; then
+            echo "$nr_field: $from_field => $to_field"
+
+            sox "$media_dir/$from/${from_field}.wav" -r 44100 -c 2 "$tmpdir/${from_field}.wav"
+            sox "$media_dir/$to/${to_field}.wav" -r 44100 -c 2 "$tmpdir/${to_field}.wav"
+            sox "$tmpdir/${from_field}.wav" "$tmpdir/${from_field}_slow.wav" tempo 0.65
+            sox "$tmpdir/${to_field}.wav" "$tmpdir/${to_field}_slow.wav" tempo 0.65
+            let i++
+        fi
+
+    done < $file
+}
+gen_sentences() { 
+    
+    local from=$1
+    local to=$2
+     if [ -z "$from" ] && [ -z "$to" ]; then echo "Fatal error: languages not seleted. please enter 'from' and 'to'"; exit; fi
+    mkdir -p $tmpdir/media/${from}/tapes/${from}_$to
+    
+    local from_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$from'$/ { print NR - 1}'` +1))
+    local to_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$to'$/ { print NR - 1}'` +1))
+
+    local i=0
+    while read -r line; do
+        if [ $i -eq 0 ]; then let i++; continue; fi
+        local from_field=`echo $line | awk -F"|" '{ print $'$from_column' }'`
+        local to_field=`echo $line | awk -F"|" '{ print $'$to_column' }'`
+        local nr_field=`echo $line | awk -F"|" '{ print $1 }'`
+
+        if ! [ -z "$from_field" ] && ! [ -z "$to_field" ]; then
+            echo "$nr_field: $from_field => $to_field"
+
+            sox "$tmpdir/${to_field}.wav" $silence1 "$tmpdir/${from_field}.wav" $silence2 "$tmpdir/${from_field}_slow.wav" $silence3 "$tmpdir/${from_field}.wav" $silence4 $tmpdir/$i.wav
+            lame $tmpdir/$i.wav $tmpdir/$i.mp3
+            metatags="-metadata Genre=${from}2${to} -metadata Artist=omniglot.nl -metadata Album=crosstalk_1"
+            ffmpeg -i $tmpdir/$i.mp3 $metatags -codec copy $tmpdir/media/${from}/tapes/${from}_$to/${from}_${to}_$i.mp3
+            echo "${from}_${to}_$i.mp3" >> "$tmpdir/media/${from}/tapes/${from}_$to/${from}_${to}.m3u"
+            let i++
+        fi
+
+    done < $file
+}
+
+get_audio "$from" "$to"
+gen_sentences "$from" "$to"
+gen_sentences "$to" "$from"
+
+exit
+
+merge() { 
+    local from=$1
+    local to=$2
+    local count=$3
+
+    local from_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$from'$/ { print NR - 1}'` +1))
+    local to_column=$((`head -n1 $file | awk 'BEGIN {RS = "|"} /^'$to'$/ { print NR - 1}'` +1))
+
+    local i=0
+    while read -r line; do
+        if [ $i -eq 0 ]; then let i++; continue; fi
+        local from_field=`echo $line | awk -F"|" '{ print $'$from_column' }'`
+        local to_field=`echo $line | awk -F"|" '{ print $'$to_column' }'`
+        if ! [ -z "$from_field" ] && ! [ -z "$to_field" ]; then
+            echo "$from_field => $to_field"
+
+            sox "$tmpdir/${to_field}.wav" $silence1 "$tmpdir/${from_field}.wav" $silence2 "$tmpdir/${from_field}.wav" $silence3 "$tmpdir/${from_field}.wav" $silence4 $tmpdir/$i.wav
+
+            if [ $i -eq 1 ]; then cp $tmpdir/$i.wav $tmpdir/previous.wav; 
+            else 
+                if [ -e $tmpdir/new.wav ]; then mv $tmpdir/new.wav $tmpdir/previous.wav; fi
+                sox $tmpdir/previous.wav $tmpdir/$i.wav $tmpdir/new.wav;
+                rm -f $tmpdir/$i.wav
+            fi
+
+            let i++
+        fi
+
+    done < $file | shuf | awk 'NR>1'
+    
+    mv $tmpdir/new.wav $tmpdir/${from}_${to}.wav
+    lame  $tmpdir/${from}_${to}.wav  $tmpdir/tape/${from}_${to}_$count.mp3
+    rm -f $tmpdir/${from}_${to}.wav
+}
+
+n=6
+    for((i=1;i<=n;i++)); do
+        merge "$from" "$to" "$i"
+    done
+    for((i=1;i<=n;i++)); do
+        merge "$to" "$from" "$i"
+    done
+
+
+
+
+
+
+
+
+
+
+exit
+
+
+
+
+merge korean dutch
+
+exit
+merge dutch korean
+
+exit
+
+#${from}_wav="../www-flashcards/decks/media/$from/${from}.wav"
+#${to}_wav="../www-flashcards/decks/media/$to/${to}.wav"
+
+
