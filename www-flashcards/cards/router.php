@@ -50,6 +50,9 @@ if (htmlspecialchars($_GET["nid"])) {
 }
 
 // locate note and read content
+$scriptname = basename($_SERVER['SCRIPT_NAME']);
+$current_url = "assesment.php?nid=$nid&";
+
 $ext = "wav";
 if ($deck == "crosstalk") {
     while (($line = fgets($handle)) !== false) {
@@ -69,10 +72,32 @@ if ($deck == "crosstalk") {
             $chinese_audio = "../decks/media/chinese/${chinese}.$ext";
             $spanish_audio = "../decks/media/spanish/${spanish}.$ext";
 
-            $i++;
+            $from_audio = "${from}_audio"; 
+            $to_audio = "${to}_audio";
+            if (!${$from} || !$from_audio || !${$to} || !$to_audio) {
+                $nid++;
+
+                $from = "$_GET[from]";
+                $to = "$_GET[to]";
+                $deck = "$_GET[deck]";
+                $url_nextcard = "${scriptname}?nid=$nid&from=${from}&to=$to&deck=$deck";
+                header( "refresh:0;url=$url_nextcard" );
+            } 
         }
     }
     fclose($handle);
+
+    if (!${$from} || !$from_audio || !${$to} || !$to_audio) {
+        $from = "$_GET[from]";
+        $to = "$_GET[to]";
+        $deck = "$_GET[deck]";
+        $url_nextcard = "completed.php?nid=1&from=${from}&to=$to&deck=$deck";
+        header( "refresh:0;url=$url_nextcard" );
+    } 
 }
 
-$current_url = "assesment.php?nid=$nid&";
+
+
+
+
+

@@ -8,7 +8,7 @@
     <?php //<p>unhide <a onclick="myFunction()" href="javascript:void(0);">transcription</a> by clicking here</p> ?>
 
         
-        <audio id="myAudio" autoplay preload><source src="<?php $audio = "${from}_audio"; echo "${$audio}"; ?>" type="audio/x-wav">You will see this text if native audio playback is not supported.
+        <audio id="myAudio" autoplay preload><source src="<?php echo "${$from_audio}"; ?>" type="audio/x-wav">You will see this text if native audio playback is not supported.
         <!-- You could use this fall-back feature to insert a JavaScript-based audio player. --></audio>
         <button id="replay" onclick="playAudio()">(R)eplay</button>
         <form method="get" action="answer.php" >

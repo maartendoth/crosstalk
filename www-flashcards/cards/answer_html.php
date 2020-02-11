@@ -2,7 +2,7 @@
     <button id="settingsButton" onclick="window.location.href = 'settings_answer.php';" ><img src="images/icons8-settings-20.png"></button>
 
     <div class="field2"><?php echo "${$to}"; ?></div> 
-    <audio autoplay><source src="<?php $audio = "${to}_audio"; echo "${$audio}"; ?>" type="audio/x-wav">You will see this text if native audio playback is not supported.
+    <audio autoplay><source src="<?php echo "${$to_audio}"; ?>" type="audio/x-wav">You will see this text if native audio playback is not supported.
     <!-- You could use this fall-back feature to insert a JavaScript-based audio player. --></audio>
     
     <form method="get" action="assesment.php" >
