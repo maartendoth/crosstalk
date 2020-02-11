@@ -3,7 +3,7 @@
         <style></style>
 
             <script>
-              function myFunction() {
+              function unhide_from() {
                 var x = document.getElementById("myDIV");
                 if (x.style.display === "none") {
                   x.style.display = "";
@@ -21,49 +21,23 @@
             </script>
 
             <script type="text/javascript" src="js/shortcut.js"></script>
+            <?php //http://www.openjs.com/scripts/events/keyboard_shortcuts/ ?>
             <script>
                 shortcut.add("Backspace", function() {
                   window.history.back();
                 }); 
-                shortcut.add("Space", function() {
-                  var showButton = document.getElementById("showButton");
-                  showButton.click();
+                shortcut.add("F1", function() {
+                  var settingsButton = document.getElementById("settingsButton");
+                  settingsButton.click();
                 }); 
+
             </script>
             <?php 
             if ("$scriptname" == "answer.php") {
-                echo '<script>
-                shortcut.add("r", function() {
-                  var easyButton = document.getElementById("easyButton");
-                  easyButton.click();
-                });   
-              </script>';
+                include 'answer_js.php';
             } else if ("$scriptname" == "question.php") {
-                echo '<script>
-                shortcut.add("r", function() {
-                  var replayButton = document.getElementById("replay");
-                  replayButton.click();
-                });   
-                    </script>';
+                include 'question_js.php';
             }
             ?>
-            <script>
-                shortcut.add("q", function() {
-                  var cluelessButton = document.getElementById("cluelessButton");
-                  cluelessButton.click();
-                });     
-                shortcut.add("w", function() {
-                    var wrongButton = document.getElementById("wrongButton");
-                  wrongButton.click();
-                }); 
-                shortcut.add("e", function() {
-                  var goodButton = document.getElementById("goodButton");
-                  goodButton.click();
-                }); 
-                shortcut.add("t", function() {
-                    var knownButton = document.getElementById("knownButton");
-                    knownButton.click();
-                });
-            </script>
     </head>
     

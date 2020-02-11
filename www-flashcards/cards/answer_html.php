@@ -1,4 +1,6 @@
 <body>
+    <button id="settingsButton" onclick="window.location.href = 'settings_answer.php';" ><img src="images/icons8-settings-20.png"></button>
+
     <div class="field2"><?php echo "${$to}"; ?></div> 
     <audio autoplay><source src="<?php $audio = "${to}_audio"; echo "${$audio}"; ?>" type="audio/x-wav">You will see this text if native audio playback is not supported.
     <!-- You could use this fall-back feature to insert a JavaScript-based audio player. --></audio>
@@ -15,18 +17,7 @@
     <input type="hidden" name="deck" value="<?php echo $deck; ?>" />
     </form>
 
-    <div>
-    
-        <p>keyboard shortcuts: q,w,e,r,t,space, backspace. space enter selected button, backspace go to previous page.</p>
-        <p>clueless (q): (show me this card again in < 3 min)</p>
-        <p>wrong(w): not completely correct, or not completely sure</p>
-        <p>good(e): correct, but had to think about it for a second or two</p>
-        <p>easy(r): instant recall, but dont remove from deck. (show me this card again in: X days)</p>
-        <p>know by hart(t): remove this card from the deck. will not be asked again unless you reset the deck.</p>
-            
-        
-        </div>
-        <div>
-        
+       
+    <p>* please note that this app doesn't work yet, still in development.</p>
         </body>
     </html>
