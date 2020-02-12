@@ -53,7 +53,7 @@ if (htmlspecialchars($_GET["nid"])) {
 $scriptname = basename($_SERVER['SCRIPT_NAME']);
 $current_url = "assesment.php?nid=$nid&";
 
-$ext = "wav";
+$ext = "mp3";
 if ($deck == "crosstalk") {
     while (($line = fgets($handle)) !== false) {
         // process the line read.
@@ -67,7 +67,7 @@ if ($deck == "crosstalk") {
             $spanish = $fields[7];  
 
             $korean_audio = "../decks/media/korean/${korean}.$ext";
-            $dutch_audio = "../decks/media/nederlands/${dutch}.$ext";
+            $dutch_audio = "../decks/media/dutch/${dutch}.$ext";
             $english_audio = "../decks/media/english/${english}.$ext";
             $chinese_audio = "../decks/media/chinese/${chinese}.$ext";
             $spanish_audio = "../decks/media/spanish/${spanish}.$ext";
